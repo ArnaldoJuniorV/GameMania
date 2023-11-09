@@ -1,5 +1,5 @@
 using GameMania.Modelos;
-
+using GameMania.Dados;
 namespace GameMania.Menus;
 
 internal class Menu 
@@ -7,15 +7,18 @@ internal class Menu
 
     public string Titulo {get;}
 
+    protected IJogoDAO jogoDAO;
+
     public Menu(string titulo)
     {
         Titulo = titulo;
+        jogoDAO = SQLiteJogoDAO.GetInstance();//JogoMemDAO.GetInstance();
     }
 
-    public bool Executar(Dictionary<string, Jogo> jogosRegistrados)
+    public bool Executar()
     {
-            ExibirTituloDaOpcao("Cadastrar novo Jogo");
-            bool sair = MostrarOpcao(jogosRegistrados);
+            ExibirTituloDaOpcao(Titulo);
+            bool sair = MostrarOpcao();
             if (!sair)
             {
                 Rodape();
@@ -25,11 +28,12 @@ internal class Menu
 
     void Rodape()
     {
+        Console.WriteLine();
         Console.WriteLine("Pressione qualquer tecla para voltar ao menu principal...");
         Console.ReadKey();
     }
 
-    public virtual bool MostrarOpcao(Dictionary<string, Jogo> jogosRegistrados)
+    public virtual bool MostrarOpcao()
     {
         return false;
     }
