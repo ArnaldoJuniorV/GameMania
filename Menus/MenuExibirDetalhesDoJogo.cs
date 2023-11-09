@@ -4,13 +4,22 @@ using GameMania.Modelos;
 
 internal class MenuExibirDetalhesDoJogo: Menu
 {
-    public override bool MostrarOpcao(Dictionary<string, Jogo> jogosRegistrados)
+
+    public MenuExibirDetalhesDoJogo() : base("Exibir Detalhes do Jogo")
+    {
+        
+    }
+
+    public override bool MostrarOpcao()
     {
         Console.Write("Informe o título do jogo: ");
-        string titulo = Console.ReadLine();
-        if (jogosRegistrados.ContainsKey(titulo))
+        
+        string? titulo = Console.ReadLine();
+        titulo = string.IsNullOrEmpty(titulo)? "":titulo;
+        var jogo = jogoDAO.ObterPorTitulo(titulo);
+        if (jogo != null)
         {
-            var jogo = jogosRegistrados[titulo];
+            jogo.ExibirFichaTecnica();
             Console.WriteLine($"A média de avaliação do jogo {titulo} é: {jogo.NotaMedia}");
         }
         else

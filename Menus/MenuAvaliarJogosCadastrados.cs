@@ -5,22 +5,25 @@ using GameMania.Modelos;
 internal class MenuAvaliarJogosCadastrados: Menu
 {
 
-    public MenuAvaliarJogosCadastrados() : base("Avaliar Jogos Cadastrados")
+    public MenuAvaliarJogosCadastrados() : base("Avaliar Jogo Cadastrado")
     {
 
     }
 
-    public override bool MostrarOpcao(Dictionary<string, Jogo> jogosRegistrados)
+    public override bool MostrarOpcao()
     {
         Console.Write("Informe o título do jogo a ser avaliado: ");
         var titulo = Console.ReadLine();
-        if (jogosRegistrados.ContainsKey(titulo))
+        titulo = string.IsNullOrEmpty(titulo)? "":titulo;
+        var jogo = jogoDAO.ObterPorTitulo(titulo);
+        if (jogo != null)
         {
             Console.Write($"Qual nota você dá ao jogo {titulo}? ");
             try
-            {
-                Avaliacao nota = Avaliacao.Parse(Console.ReadLine());
-                jogosRegistrados[titulo].AdicionarNota(nota);
+            {   var opcao = Console.ReadLine();
+                opcao = string.IsNullOrEmpty(opcao)? "":opcao;
+                Avaliacao nota = Avaliacao.Parse(opcao);
+                jogo.AdicionarNota(nota);
             } 
             catch(FormatException e)
             {

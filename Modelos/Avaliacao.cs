@@ -1,4 +1,4 @@
-internal class Avaliacao
+public class Avaliacao
 {
     public int Nota {get; set;}
 
@@ -14,9 +14,9 @@ internal class Avaliacao
         {
             nota = int.Parse(texto);
         }
-        catch(FormatException e)
+        catch(FormatException)
         {
-            throw new FormatException("Valor informato não é um inteiro válido!");
+            throw new FormatException("Valor informado não é um inteiro válido!");
         }
         
         if (nota < 0 || nota > 10)
